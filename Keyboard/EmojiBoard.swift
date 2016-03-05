@@ -13,17 +13,17 @@ This is the demo keyboard. If you're implementing your own keyboard, simply foll
 set the name of your KeyboardViewController subclass in the Info.plist file.
 */
 
-let kCatTypeEnabled = "kCatTypeEnabled"
+let kEmojiType = "kCatTypeEnabled"
 
-class Catboard: KeyboardViewController {
+class EmojiBoard: KeyboardViewController {
     
     let takeDebugScreenshot: Bool = false
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        NSUserDefaults.standardUserDefaults().registerDefaults([kCatTypeEnabled: true])
+        NSUserDefaults.standardUserDefaults().registerDefaults([kEmojiType: true])
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,7 +33,7 @@ class Catboard: KeyboardViewController {
         
         let keyOutput = key.outputForCase(self.shiftState.uppercase())
         
-        if !NSUserDefaults.standardUserDefaults().boolForKey(kCatTypeEnabled) {
+        if !NSUserDefaults.standardUserDefaults().boolForKey(kEmojiType) {
             textDocumentProxy.insertText(keyOutput)
             return
         }
@@ -58,8 +58,8 @@ class Catboard: KeyboardViewController {
                     textDocumentProxy.insertText(keyOutput)
                     return
                 }
-
-                textDocumentProxy.insertText("\(randomCat())")
+                
+                textDocumentProxy.insertText("\(randomEmoji())")
                 textDocumentProxy.insertText(" ")
                 textDocumentProxy.insertText(keyOutput)
                 return
@@ -126,18 +126,15 @@ class Catboard: KeyboardViewController {
             self.view.backgroundColor = oldViewColor
         }
     }
-    
-    func randomCat() -> String {
-        let cats = "🐱😺😸😹😽😻😿😾😼🙀"
-        
-        let numCats = cats.characters.count
-        let randomCat = arc4random() % UInt32(numCats)
-        
-        let index = cats.startIndex.advancedBy(Int(randomCat))
-        let character = cats[index]
-        
-        return String(character)
-    }
-
 }
-
+func randomEmoji() -> String {
+    let cats = "😂"
+    
+    let numCats = cats.characters.count
+    let randomCat = arc4random() % UInt32(numCats)
+    
+    let index = cats.startIndex.advancedBy(Int(randomCat))
+    let character = cats[index]
+    
+    return String(character)
+}

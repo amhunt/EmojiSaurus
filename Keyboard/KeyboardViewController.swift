@@ -15,6 +15,7 @@ let metrics: [String:Double] = [
 func metric(name: String) -> CGFloat { return CGFloat(metrics[name]!) }
 
 // TODO: move this somewhere else and localize
+let kEmojiTranslation = "kEmojiTranslation"
 let kAutoCapitalization = "kAutoCapitalization"
 let kPeriodShortcut = "kPeriodShortcut"
 let kKeyboardClicks = "kKeyboardClicks"
@@ -95,6 +96,7 @@ class KeyboardViewController: UIInputViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         NSUserDefaults.standardUserDefaults().registerDefaults([
+            kEmojiTranslation: true,
             kAutoCapitalization: true,
             kPeriodShortcut: true,
             kKeyboardClicks: false,

@@ -33,7 +33,7 @@ class DefaultSettings: ExtraView, UITableViewDataSource, UITableViewDelegate {
     var settingsList: [(String, [String])] {
         get {
             return [
-                ("General Settings", [kAutoCapitalization, kPeriodShortcut, kKeyboardClicks]),
+                ("General Settings", [kEmojiTranslation, kAutoCapitalization, kPeriodShortcut, kKeyboardClicks]),
                 ("Extra Settings", [kSmallLowercase])
             ]
         }
@@ -41,6 +41,7 @@ class DefaultSettings: ExtraView, UITableViewDataSource, UITableViewDelegate {
     var settingsNames: [String:String] {
         get {
             return [
+                kEmojiTranslation: "Emoji Translation",
                 kAutoCapitalization: "Auto-Capitalization",
                 kPeriodShortcut:  "“.” Shortcut",
                 kKeyboardClicks: "Keyboard Clicks",
