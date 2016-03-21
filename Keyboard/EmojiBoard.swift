@@ -37,6 +37,81 @@ class EmojiBoard: KeyboardViewController {
             textDocumentProxy.insertText(keyOutput)
             return
         }
+        if key.type == .Space {
+            if let context = textDocumentProxy.documentContextBeforeInput {
+                if context.characters.count < 2 {
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                
+                var index = context.endIndex
+                
+                
+                index = index.predecessor()
+                
+                // emoji!
+                if context[index] == "!" {
+                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
+                    textDocumentProxy.insertText("❗️ ")
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                if context[index] == "e" && context[index.predecessor()] == "b" {
+                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
+                    textDocumentProxy.insertText("🐝 ")
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                if context[index] == "k" && (context[index.predecessor()] == "o" || context[index.predecessor()] == "O") {
+                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
+                    textDocumentProxy.insertText("🆗 ")
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                if context[index] == "e" && (context[index.predecessor()] == "w" || context[index.predecessor()] == "W") {
+                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
+                    textDocumentProxy.insertText("👯 ")
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                
+                // four letter words
+                if context.characters.count < 4 {
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                if context.containsString("love") {
+                    for _ in 0...4 { textDocumentProxy.deleteBackward() }
+                    textDocumentProxy.insertText("❤️ ")
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                if context[index] == "l" && context[index.predecessor()] == "o" && context[index.predecessor().predecessor()] == "o" && context[index.predecessor().predecessor().predecessor()] == "c" {
+                    for _ in 0...4 { textDocumentProxy.deleteBackward() }
+                    textDocumentProxy.insertText("🆒 ")
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+                //                if context[index] == "e" && context[index.predecessor()] == "v" && context[index.predecessor().predecessor()] == "o" && context[index.predecessor().predecessor().predecessor()] == "l" {
+                //                    textDocumentProxy.deleteBackward()
+                //                    textDocumentProxy.deleteBackward()
+                //                    textDocumentProxy.deleteBackward()
+                //                    textDocumentProxy.deleteBackward()
+                //                    textDocumentProxy.deleteBackward()
+                //                    textDocumentProxy.insertText("❤️ ")
+                //                    textDocumentProxy.insertText(keyOutput)
+                //                    return
+                //                }
+                if context[index] == "h" && context[index.predecessor()] == "s" && context[index.predecessor().predecessor()] == "i" && context[index.predecessor().predecessor().predecessor()] == "f" {
+                    for _ in 0...4 { textDocumentProxy.deleteBackward() }
+                    textDocumentProxy.insertText("🐠 ")
+                    textDocumentProxy.insertText(keyOutput)
+                    return
+                }
+
+            
+            }
+        }
         
         if key.type == .Character || key.type == .SpecialCharacter {
             if let context = textDocumentProxy.documentContextBeforeInput {
@@ -47,19 +122,21 @@ class EmojiBoard: KeyboardViewController {
                 
                 var index = context.endIndex
                 
+                
                 index = index.predecessor()
+                
                 if context[index] != " " {
                     textDocumentProxy.insertText(keyOutput)
                     return
                 }
+                
                 
                 index = index.predecessor()
                 if context[index] == " " {
                     textDocumentProxy.insertText(keyOutput)
                     return
                 }
-                
-                textDocumentProxy.insertText("\(randomEmoji())")
+                //textDocumentProxy.insertText("\(randomEmoji())")
                 textDocumentProxy.insertText(" ")
                 textDocumentProxy.insertText(keyOutput)
                 return
@@ -112,7 +189,7 @@ class EmojiBoard: KeyboardViewController {
             
             let rect = self.view.bounds
             UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
-            var context = UIGraphicsGetCurrentContext()
+            _ = UIGraphicsGetCurrentContext()
             self.view.drawViewHierarchyInRect(self.view.bounds, afterScreenUpdates: true)
             let capturedImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
