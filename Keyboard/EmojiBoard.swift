@@ -15,6 +15,42 @@ set the name of your KeyboardViewController subclass in the Info.plist file.
 
 let kEmojiType = "kCatTypeEnabled"
 
+
+let dict = [
+    ":)": "😀",
+    "bride": "👰🏼",
+    "santa": "🎅🏻",
+    "ghost": "👻",
+    "snapchat": "👻",
+    "poop": "💩",
+    "dead": "💀",
+    "death": "💀",
+    "alien": "👽",
+    "lips": "👄",
+    "manicure": "💅🏻",
+    "fish": "🐠",
+    "eggplant": "🍆",
+    "dick": "🍆",
+    "hamburger": "🍔",
+    "hamburgers": "🍔",
+    "burger": "🍔",
+    "burgers": "🍔",
+    "pizza": "🍕",
+    "eggs": "🍳",
+    "egg": "🍳",
+    "wine": "🍷",
+    "beer": "🍺",
+    "beers": "🍻",
+    "baby": "🍼",
+    "bottle": "🍼",
+    "love": "❤️",
+    "basketball": "🏀",
+    "football": "🏈",
+    "baseball": "⚾️",
+    "tennis": "🎾",
+    "cheese": "FIX THIS"
+]
+
 class EmojiBoard: KeyboardViewController {
     
     let takeDebugScreenshot: Bool = false
@@ -27,7 +63,6 @@ class EmojiBoard: KeyboardViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     override func keyPressed(key: Key) {
         let textDocumentProxy = self.textDocumentProxy
         
@@ -50,65 +85,27 @@ class EmojiBoard: KeyboardViewController {
                 index = index.predecessor()
                 
                 // emoji!
-                if context[index] == "!" {
-                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
-                    textDocumentProxy.insertText("❗️ ")
-                    textDocumentProxy.insertText(keyOutput)
-                    return
-                }
-                if context[index] == "e" && context[index.predecessor()] == "b" {
-                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
-                    textDocumentProxy.insertText("🐝 ")
-                    textDocumentProxy.insertText(keyOutput)
-                    return
-                }
-                if context[index] == "k" && (context[index.predecessor()] == "o" || context[index.predecessor()] == "O") {
-                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
-                    textDocumentProxy.insertText("🆗 ")
-                    textDocumentProxy.insertText(keyOutput)
-                    return
-                }
-                if context[index] == "e" && (context[index.predecessor()] == "w" || context[index.predecessor()] == "W") {
-                    for _ in 0...2 { textDocumentProxy.deleteBackward() }
-                    textDocumentProxy.insertText("👯 ")
-                    textDocumentProxy.insertText(keyOutput)
-                    return
+                let context_length = context.characters.count
+                for (word, emoji) in dict {
+                    let length = word.characters.count
+                    if length > context_length {
+                        continue
+                    }
+                    let subStr = context.substringFromIndex(context.endIndex.advancedBy(-length))
+                    if (subStr.caseInsensitiveCompare(word) == NSComparisonResult.OrderedSame) {
+                        for _ in 0...length { textDocumentProxy.deleteBackward() }
+                        textDocumentProxy.insertText(emoji+" ")
+                        textDocumentProxy.insertText(keyOutput)
+                        return
+                    }
                 }
                 
-                // four letter words
-                if context.characters.count < 4 {
-                    textDocumentProxy.insertText(keyOutput)
-                    return
-                }
-                if context.containsString("love") {
-                    for _ in 0...4 { textDocumentProxy.deleteBackward() }
-                    textDocumentProxy.insertText("❤️ ")
-                    textDocumentProxy.insertText(keyOutput)
-                    return
-                }
                 if context[index] == "l" && context[index.predecessor()] == "o" && context[index.predecessor().predecessor()] == "o" && context[index.predecessor().predecessor().predecessor()] == "c" {
                     for _ in 0...4 { textDocumentProxy.deleteBackward() }
                     textDocumentProxy.insertText("🆒 ")
                     textDocumentProxy.insertText(keyOutput)
                     return
                 }
-                //                if context[index] == "e" && context[index.predecessor()] == "v" && context[index.predecessor().predecessor()] == "o" && context[index.predecessor().predecessor().predecessor()] == "l" {
-                //                    textDocumentProxy.deleteBackward()
-                //                    textDocumentProxy.deleteBackward()
-                //                    textDocumentProxy.deleteBackward()
-                //                    textDocumentProxy.deleteBackward()
-                //                    textDocumentProxy.deleteBackward()
-                //                    textDocumentProxy.insertText("❤️ ")
-                //                    textDocumentProxy.insertText(keyOutput)
-                //                    return
-                //                }
-                if context[index] == "h" && context[index.predecessor()] == "s" && context[index.predecessor().predecessor()] == "i" && context[index.predecessor().predecessor().predecessor()] == "f" {
-                    for _ in 0...4 { textDocumentProxy.deleteBackward() }
-                    textDocumentProxy.insertText("🐠 ")
-                    textDocumentProxy.insertText(keyOutput)
-                    return
-                }
-
             
             }
         }
