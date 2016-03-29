@@ -15,10 +15,61 @@ set the name of your KeyboardViewController subclass in the Info.plist file.
 
 let kEmojiType = "kCatTypeEnabled"
 
-
+//
+//let dict = [
+//    ":)": "😀",
+//    "bride": "👰🏼",
+//    "santa": "🎅🏻",
+//    "ghost": "👻",
+//    "snapchat": "👻",
+//    "poop": "💩",
+//    "dead": "💀",
+//    "death": "💀",
+//    "alien": "👽",
+//    "lips": "👄",
+//    "manicure": "💅🏻",
+//    "fish": "🐠",
+//    "eggplant": "🍆",
+//    "dick": "🍆",
+//    "hamburger": "🍔",
+//    "hamburgers": "🍔",
+//    "burger": "🍔",
+//    "burgers": "🍔",
+//    "pizza": "🍕",
+//    "eggs": "🍳",
+//    "egg": "🍳",
+//    "wine": "🍷",
+//    "beer": "🍺",
+//    "beers": "🍻",
+//    "baby": "🍼",
+//    "bottle": "🍼",
+//    "love": "❤️",
+//    "basketball": "🏀",
+//    "football": "🏈",
+//    "baseball": "⚾️",
+//    "tennis": "🎾",
+//    "cheese": "FIX THIS"
+//]
 let dict = [
     ":)": "😀",
+    "grinning face": "😀",
+    "eek": "😁",
+    "crying tears of joy": "😂",
+    "yay": "😃",
+    "smiling eyes": "😄",
+    "sweating": "😅",
+    "squinting": "😆",
+    "angel": "😇",
+    "devil": "😈",
+    "wink": "😉",
+    ";)": "😉",
+    "winking": "😉",
+    "blushing": "😊",
+    "tongue out": "😋",
+    "heart eyes": "😍",
+    "sick": "😷",
     "bride": "👰🏼",
+    "baby angel": "👼🏼",
     "santa": "🎅🏻",
     "ghost": "👻",
     "snapchat": "👻",
@@ -26,8 +77,33 @@ let dict = [
     "dead": "💀",
     "death": "💀",
     "alien": "👽",
+    "whatever": "💁🏻",
+    "no way": "🙅🏼",
+    "praise": "🙌🏻",
+    "yaassss": "🙌🏻",
+    "claps": "👏🏻",
+    "clapping": "👏🏻",
+    "ear": "👂🏻",
+    "listening": "👂🏻",
+    "eyes": "👀",
+    "look": "👀",
+    "see": "👀",
+    "seeing": "👀",
+    "looking": "👀",
+    "nose": "👃🏻",
+    "smell": "👃🏻",
+    "smelling": "👃🏻",
     "lips": "👄",
+    "lip": "👄",
+    "kiss": "💋",
+    "smooch": "💋",
+    "tongue": "👅",
     "manicure": "💅🏻",
+    "waving": "👋🏻",
+    "thumbs up": "👍🏻",
+    "got it": "👍🏻",
+    "thumbs down": "👎🏻",
+    "number one": "☝🏻",
     "fish": "🐠",
     "eggplant": "🍆",
     "dick": "🍆",
@@ -81,7 +157,6 @@ class EmojiBoard: KeyboardViewController {
                 
                 var index = context.endIndex
                 
-                
                 index = index.predecessor()
                 
                 // emoji!
@@ -94,19 +169,13 @@ class EmojiBoard: KeyboardViewController {
                     let subStr = context.substringFromIndex(context.endIndex.advancedBy(-length))
                     if (subStr.caseInsensitiveCompare(word) == NSComparisonResult.OrderedSame) {
                         for _ in 0...length { textDocumentProxy.deleteBackward() }
-                        textDocumentProxy.insertText(emoji+" ")
+                        textDocumentProxy.insertText(" "+emoji)
                         textDocumentProxy.insertText(keyOutput)
                         return
                     }
                 }
-                
-                if context[index] == "l" && context[index.predecessor()] == "o" && context[index.predecessor().predecessor()] == "o" && context[index.predecessor().predecessor().predecessor()] == "c" {
-                    for _ in 0...4 { textDocumentProxy.deleteBackward() }
-                    textDocumentProxy.insertText("🆒 ")
-                    textDocumentProxy.insertText(keyOutput)
-                    return
-                }
-            
+                textDocumentProxy.insertText(keyOutput)
+                return
             }
         }
         
@@ -134,7 +203,7 @@ class EmojiBoard: KeyboardViewController {
                     return
                 }
                 //textDocumentProxy.insertText("\(randomEmoji())")
-                textDocumentProxy.insertText(" ")
+//                textDocumentProxy.insertText(" ")
                 textDocumentProxy.insertText(keyOutput)
                 return
             }
