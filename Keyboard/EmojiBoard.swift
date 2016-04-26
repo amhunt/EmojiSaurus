@@ -125,7 +125,7 @@ let dict = [":)": "😀",
     "clapping": "👏🏻",
     "ear": "👂🏻",
     "listening": "👂🏻",
-    "i": "👀",
+    " i": " 👀",
     "eyes": "👀",
     "look": "👀",
     "see": "👀",
@@ -155,6 +155,7 @@ let dict = [":)": "😀",
     "corn": "🌽",
     "maize": "🌽",
     "yam": "🍠",
+    "cheese": "🧀",
     "grapes": "🍇",
     "melon": "🍈",
     "watermelon": "🍉",
@@ -173,7 +174,7 @@ let dict = [":)": "😀",
     "booty": "🍑",
     "butt": "🍑",
     "cherry": "🍒",
-    "cherries": "🍒",
+    "cherries": "🍒🍒",
     "strawberry": "🍓",
     "strawberries": "🍓",
     "hamburger": "🍔",
@@ -189,10 +190,15 @@ let dict = [":)": "😀",
     "rice": "🍚",
     "curry": "🍛",
     "ramen": "🍜",
+    "noodles": "🍜",
     "spaghetti": "🍝",
     "pasta": "🍝",
     "bread": "🍞",
     "fries": "🍟",
+    "hotdog": "🌭",
+    "taco": "🌮",
+    "tacos": "🌮",
+    "burrito": "🌯",
     "dango": "🍡",
     "oden": "🍢",
     "sushi": "🍣",
@@ -205,20 +211,36 @@ let dict = [":)": "😀",
     "donuts": "🍩",
     "cookie": "🍪",
     "chocolate": "🍫",
+    "popcorn": "🍿",
     "candy": "🍬",
     "eggs": "🍳",
     "egg": "🍳",
     "wine": "🍷",
     "beer": "🍺",
     "beers": "🍻",
+    "vino": "🍷",
+    "martini": "🍸",
+    "cocktail": "🍹",
+    "pina colada": "🍹",
+    "tropical drink": "🍹",
+    "champagne": "🍾",
+    "bubbly": "🍾",
     "baby": "🍼",
     "bottle": "🍼",
     "love": "❤️",
+    "heart": "❤️",
+    "carol": "slut",
+    "soccer": "⚽️",
     "basketball": "🏀",
     "football": "🏈",
     "baseball": "⚾️",
     "tennis": "🎾",
-    "cheese": "FIX THIS"
+    "volleyball": "🏐",
+    "rugby": "🏉",
+    "billiards": "🎱",
+    "golf": "⛳️",
+    "golfer": "🏌",
+    "ping pong": "🏓",
 ]
 
 
@@ -259,10 +281,32 @@ class EmojiBoard: KeyboardViewController {
                     }
                     let subStr = context.substringFromIndex(context.endIndex.advancedBy(-length))
                     if (subStr.caseInsensitiveCompare(word) == NSComparisonResult.OrderedSame) {
-                        for _ in 0...length { textDocumentProxy.deleteBackward() }
-                        textDocumentProxy.insertText(" "+emoji)
+                        for _ in 0...(length-1) { textDocumentProxy.deleteBackward() }
+                        textDocumentProxy.insertText(emoji)
                         textDocumentProxy.insertText(keyOutput)
                         return
+                    }
+                }
+                if (context.substringFromIndex(context.endIndex.advancedBy(-1)) == "s") {
+                    var index = context.endIndex
+                    
+                    index = index.predecessor().predecessor()
+                    
+                    // emoji!
+                    let context_length = context.characters.count-1
+                    let sub_context = context.substringToIndex(context.endIndex.advancedBy(-1))
+                    for (word, emoji) in dict {
+                        let length = word.characters.count
+                        if length > context_length {
+                            continue
+                        }
+                        let subStr = sub_context.substringFromIndex(sub_context.endIndex.advancedBy(-length))
+                        if (subStr.caseInsensitiveCompare(word) == NSComparisonResult.OrderedSame) {
+                            for _ in 0...length { textDocumentProxy.deleteBackward() }
+                            textDocumentProxy.insertText(emoji+emoji)
+                            textDocumentProxy.insertText(keyOutput)
+                            return
+                        }
                     }
                 }
                 textDocumentProxy.insertText(keyOutput)
@@ -287,14 +331,12 @@ class EmojiBoard: KeyboardViewController {
                     return
                 }
                 
-                
                 index = index.predecessor()
                 if context[index] == " " {
                     textDocumentProxy.insertText(keyOutput)
                     return
                 }
-                //textDocumentProxy.insertText("\(randomEmoji())")
-//                textDocumentProxy.insertText(" ")
+                
                 textDocumentProxy.insertText(keyOutput)
                 return
             }
